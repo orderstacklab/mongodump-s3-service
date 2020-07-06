@@ -35,7 +35,7 @@ fi
 
 if [[ $MONGO_USER != "" && $MONGO_PASSWORD != "" ]]
 then
-	args+=("--username" $MONGO_USER "--password" $MONGO_PASSWORD "--authenticationDatase=$AUTH_DB" ) 
+	args+=("--username" $MONGO_USER "--password" $MONGO_PASSWORD "--authenticationDatabase=$AUTH_DB" ) 
 else 
 	echo "Skipping user authentication"
 fi
