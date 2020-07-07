@@ -2,11 +2,11 @@
 
 if [[ $KEEP_OLD_FILES_DAYS == "" ]]
 then
-	echo "Setting KEEP_OLD_FILES_DAYS to 1"
-	KEEP_OLD_FILES_DAYS=1
+	echo "skipping old file deletions"
+else
+	echo "deleting old files"
+	find /usr/files -mtime +$KEEP_OLD_FILES_DAYS -exec rm -f {} \;
 fi
-echo "deleting old files"
-find /usr/files -mtime +$KEEP_OLD_FILES_DAYS -exec rm -f {} \;
 
 if [[ $MONGO_HOST == "" ]]
 then
@@ -16,11 +16,11 @@ fi
 
 if [[ $MONGO_PORT == "" ]]
 then
-	echo "Setting default mongo port as 27017"
+	echo "Trying default mongo port: 27017"
 	MONGO_PORT=27017
 fi
 
-dateString="$(date -u +%d-%m-%Y-%H_%M_%S)"
+dateString="$(date +%d-%m-%Y-%H_%M_%S)"
 path=/usr/files/
 filename=$(echo mongodump_$dateString.zip)
 echo "Creating" $path$filename
@@ -59,6 +59,3 @@ fi
 echo ${awsArgs[@]}
 
 aws s3 cp ${awsArgs[@]}
-
-# docker run -v ~/Desktop/backup_files:/usr/files --env-file .env rohandhamapurkar/mongodump-s3-service:1.0
-# docker build --tag mongodump-s3-service:1.0 .

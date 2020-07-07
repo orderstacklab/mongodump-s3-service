@@ -1,7 +1,7 @@
 FROM alpine
 
 # set working directory
-WORKDIR /usr/files
+WORKDIR /usr/local/bin
 
 COPY awesomescript.sh /usr/local/bin/myawesomescript
 COPY setcron.sh /usr/local/bin/setcron
@@ -13,6 +13,8 @@ RUN apk add bash
 
 RUN echo "Install System dependencies" && \
     apk add --update
+
+RUN apk add --no-cache tzdata
 
 RUN echo "Install MongoDB dependencies" && \
     apk add \
@@ -26,7 +28,5 @@ RUN echo "Install aws-cli" && \
 RUN rm /var/cache/apk/*
 
 RUN chmod +x /usr/local/bin/myawesomescript
-
-RUN cat /usr/local/bin/myawesomescript
 
 CMD /bin/bash /usr/local/bin/setcron -- crond -l 2 -f
