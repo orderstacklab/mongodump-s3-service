@@ -1,4 +1,4 @@
-## mongodump-s3-service
+## mongodump-s3-service: For taking mongodump backups and uploading it to an S3 storage.
 
 #### For running container on any host
 
