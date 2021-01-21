@@ -1,4 +1,2 @@
-#!/bin/bash
-echo "$CRON_EXPRESSION /bin/bash /usr/local/bin/myawesomescript" > /etc/crontabs/root
-echo $@
-exec $@
+#!/bin/sh
+echo "$CRON_EXPRESSION bash /usr/local/bin/myawesomescript.sh" > /etc/crontabs/root

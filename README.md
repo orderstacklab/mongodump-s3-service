@@ -5,10 +5,15 @@
 ```
 docker run --name mongodump-s3-service \
 		   -v ~/backup_files:/usr/files \
-		   --network "host" \
 		   --env-file .env \
 		   -d \
 		   rohandhamapurkar/mongodump-s3-service:latest
+```
+
+Or run it using the docker-compose.yml by cloning this repository
+
+```
+docker-compose up -d
 ```
 
 #### For taking instant mongodump on any host
@@ -24,7 +29,6 @@ docker build --tag mongodump-s3-service:latest .
 
 docker run --name mongodump-s3-service \
 		   -v ~/backup_files:/usr/files \
-		   --network "host" \
 		   --env-file .env \
 		   -d \
 		   mongodump-s3-service:latest

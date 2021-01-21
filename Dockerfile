@@ -3,11 +3,14 @@ FROM alpine
 # set working directory
 WORKDIR /usr/local/bin
 
-COPY awesomescript.sh /usr/local/bin/myawesomescript
-COPY setcron.sh /usr/local/bin/setcron
-COPY instant.sh /usr/local/bin/instant
+COPY awesomescript.sh myawesomescript.sh
+COPY setcron.sh setcron.sh
+COPY instant.sh instant
 
-RUN chmod +x /usr/local/bin/instant
+RUN chmod +x instant
+RUN chmod +x myawesomescript.sh
+RUN chmod +x setcron.sh
+
 
 RUN apk add bash
 
@@ -27,6 +30,4 @@ RUN echo "Install aws-cli" && \
 
 RUN rm /var/cache/apk/*
 
-RUN chmod +x /usr/local/bin/myawesomescript
-
-CMD /bin/bash /usr/local/bin/setcron -- crond -l 2 -f
+CMD sh setcron.sh && crond -S -l 0 -f

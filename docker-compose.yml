@@ -1,0 +1,11 @@
+version: "3.4"
+services:
+  bck_service:
+    env_file:
+      - .env
+    build: .
+    volumes:
+      - backup_vol:/usr/files
+
+volumes:
+  backup_vol:
