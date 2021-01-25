@@ -40,10 +40,6 @@ else
 	echo "Skipping user authentication"
 fi
 
-echo "Running mongodump"
-echo ${args[@]}
-mongodump ${args[@]}
-
 awsArgs=($path$filename s3://$BUCKET_NAME/$BUCKET_PATH/$filename)
 
 export AWS_ACCESS_KEY_ID=$ACCESS_KEY_ID
@@ -56,6 +52,20 @@ then
 	awsArgs+=("--endpoint $ENDPOINT")
 fi
 
-echo ${awsArgs[@]}
+echo "Running mongodump and s3 push"
+# echo ${args[@]}
+# echo ${awsArgs[@]}
 
-aws s3 cp ${awsArgs[@]}
+if mongodump ${args[@]} && aws s3 cp ${awsArgs[@]} ; then
+    echo "Backup succeeded"
+	if [[ $HEALTHCHECK_IO_CHECK_URL != "" ]]
+	then
+		curl -m 10 --retry 5 $HEALTHCHECK_IO_CHECK_URL
+	fi
+else
+    echo "Backup failed"
+	if [[ $HEALTHCHECK_IO_CHECK_URL != "" ]]
+	then
+		curl --retry 3 $HEALTHCHECK_IO_CHECK_URL
+	fi
+fi
