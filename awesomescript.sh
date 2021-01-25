@@ -66,6 +66,6 @@ else
     echo "Backup failed"
 	if [[ $HEALTHCHECK_IO_CHECK_URL != "" ]]
 	then
-		curl --retry 3 $HEALTHCHECK_IO_CHECK_URL
+		curl --retry 3 $HEALTHCHECK_IO_CHECK_URL/fail
 	fi
 fi

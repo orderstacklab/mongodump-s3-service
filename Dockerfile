@@ -5,12 +5,12 @@ WORKDIR /usr/local/bin
 
 COPY awesomescript.sh myawesomescript.sh
 COPY setcron.sh setcron.sh
+
 COPY instant.sh instant
 
 RUN chmod +x instant
 RUN chmod +x myawesomescript.sh
 RUN chmod +x setcron.sh
-
 
 RUN apk add bash
 
@@ -23,6 +23,10 @@ RUN echo "Install MongoDB dependencies" && \
     apk add \
     mongodb-tools
 
+RUN echo "Install Curl as dependency" && \
+    apk add \
+    curl
+
 RUN echo "Install aws-cli" && \
     apk add \ 
     --update py-pip groff less mailcap \
@@ -30,4 +34,4 @@ RUN echo "Install aws-cli" && \
 
 RUN rm /var/cache/apk/*
 
-CMD sh setcron.sh && crond -S -l 0 -f
+CMD setcron.sh
